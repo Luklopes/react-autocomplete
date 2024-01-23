@@ -78,12 +78,12 @@ export const save = async (
       if (error.response.data[0].key === "name") {
         throw new CustomValidationError(
           "name",
-          "Já existe um complemento com esse nome"
+          "Error Name"
         );
       } else if (error.response.data[0].key === "reference") {
         throw new CustomValidationError(
           "reference",
-          "Esse código PDV já existe"
+          "Error PDV"
         );
       }
     }
