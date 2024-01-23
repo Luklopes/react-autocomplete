@@ -1,4 +1,4 @@
-# AutoComplete
+# React MultiSelect
 
 <a name="readme-top"></a>
  AutocompleteReact
