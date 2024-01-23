@@ -11,9 +11,6 @@ This project was generated with [React CLI](https://github.com/react/angular-cli
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/NEJCPM/ne-store/Best-README-Template">
-    <img src="https://www.jcpm.com.br/assets/img/200x200.png" alt="Logo" >
-  </a>
 
   <h3 align="center">AutoComplete</h3>
 
