@@ -15,7 +15,7 @@ export class CustomValidationError extends Error {
   }
 }
 
-export type AddonResponseBody = {
+export type ResponseBody = {
   id?: string;
   name: string;
   description?: string;
@@ -23,7 +23,7 @@ export type AddonResponseBody = {
   reference: string;
 };
 
-export type AddonFormInput = {
+export type FormInput = {
   id?: string;
   name: string;
   description?: string | "";
@@ -31,7 +31,7 @@ export type AddonFormInput = {
   reference: string;
 };
 
-export interface Addon {
+export interface item {
   id?: string;
   name: string;
   description?: string;
@@ -45,20 +45,20 @@ export type IPagination = {
   offset: number;
 };
 
-export type ICountAddonPerStatus = {
+export type ICountPerStatus = {
   total: number;
   available: number;
   unavailable: number;
 };
 
-export type ISearchAddonOutput = {
-  addons: Addon[];
+export type ISearchOutput = {
+  items: item[];
   pagination: IPagination;
-  countPerStatus: ICountAddonPerStatus;
+  countPerStatus: ICountPerStatus;
 };
 
 type IParams = {
-  addonId?: string;
+  id?: string;
   offset?: number;
   limit?: number;
   orderBy?: string;
@@ -66,11 +66,11 @@ type IParams = {
   search?: string;
   status?: string;
 };
-export const saveAddons = async (
-  data: AddonResponseBody
-): Promise<ApiResponse<AddonResponseBody>> => {
+export const save = async (
+  data: ResponseBody
+): Promise<ApiResponse<ResponseBody>> => {
   try {
-    const response = await monolithAPI.put("/foods/addons", data);
+    const response = await monolithAPI.put("/foods/", data);
 
     return { data: response.data };
   } catch (error) {
@@ -92,11 +92,9 @@ export const saveAddons = async (
   }
 };
 
-export const getAddonRequest = async ({
-  addonId,
-}: IParams): Promise<AddonResponseBody> => {
+export const getRequest = async ({ id }: IParams): Promise<ResponseBody> => {
   try {
-    const { data } = await monolithAPI.get(`foods/addons/${addonId}`);
+    const { data } = await monolithAPI.get(`foods//${id}`);
 
     return data;
   } catch (e) {
@@ -104,22 +102,22 @@ export const getAddonRequest = async ({
   }
 };
 
-export const getAddonsList = async ({
+export const getList = async ({
   offset = 0,
   limit = 25,
   orderBy = "name",
   sortBy = "ASC",
   search = "",
   status = "",
-}: IParams): Promise<ISearchAddonOutput> => {
+}: IParams): Promise<ISearchOutput> => {
   try {
     const {
       data: { data = [], pagination, countPerStatus },
     } = await monolithAPI.get<{
-      data: Addon[];
+      data: item[];
       pagination: IPagination;
-      countPerStatus: ICountAddonPerStatus;
-    }>("foods/addons", {
+      countPerStatus: ICountPerStatus;
+    }>("foods/", {
       params: {
         offset,
         limit,
@@ -130,7 +128,7 @@ export const getAddonsList = async ({
       },
     });
 
-    return { addons: data, pagination, countPerStatus };
+    return { items: data, pagination, countPerStatus };
   } catch (e) {
     return {
       pagination: {
@@ -138,7 +136,7 @@ export const getAddonsList = async ({
         offset: 0,
         limit: 0,
       },
-      addons: [],
+      items: [],
       countPerStatus: {
         total: 0,
         available: 0,
